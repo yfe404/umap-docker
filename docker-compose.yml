@@ -1,0 +1,30 @@
+version: '3'
+services:
+  postgis:
+    image: postgis/postgis:12-3.3
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - postgis:/var/lib/postgresql/data
+
+  redis:
+    image: redis:latest
+
+  umap:
+    image: pommib/umap:1.2.3
+    ports:
+      - "8000:80"
+    environment:
+      - DATABASE_URL=postgis://postgres@postgis/postgres
+      - REDIS_URL=redis://redis:6379/0
+      - SECRET_KEY=some-long-and-weirdly-unrandom-secret-key
+      - ALLOWED_HOSTS=*
+      - SITE_URL=https://umap.somewhere.nl/
+      - LEAFLET_STORAGE_ALLOW_ANONYMOUS=True
+    depends_on:
+      - postgis
+      - redis
+
+volumes:
+  postgis:
+  uploads:
