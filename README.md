@@ -56,3 +56,18 @@ volumes:
   postgis:
   uploads:
 ```
+
+
+## Add the superuser 
+
+You need to get into the running docker container running umap
+
+```
+docker exec -it [container-name] /bin/bash
+```
+
+Then:
+```
+su umap
+/srv/umap/venv/bin/umap createsuperuser
+```
